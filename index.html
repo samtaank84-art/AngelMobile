@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Angel Mobile: HYDRA INDUSTRY</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { background-color: #0a0a0c; color: #e0e0e0; font-family: 'Inter', sans-serif; overflow: hidden; }
+        .glass { background: rgba(20, 20, 25, 0.7); backdrop-filter: blur(15px); border: 1px solid rgba(255,255,255,0.1); }
+        .angel-glow { box-shadow: 0 0 30px rgba(0, 150, 255, 0.2); }
+        .pulse { animation: pulse 4s infinite; }
+        @keyframes pulse { 0%, 100% { opacity: 0.5; transform: scale(1); } 50% { opacity: 0.8; transform: scale(1.05); } }
+        .chat-container { height: calc(100vh - 250px); }
+    </style>
+</head>
+<body class="flex flex-col h-screen">
+
+    <!-- Header -->
+    <div class="p-6 flex justify-between items-center glass border-b border-white/5">
+        <div>
+            <h1 class="text-xl font-bold tracking-tighter text-blue-400">ANGEL <span class="text-[10px] bg-blue-500/20 px-2 py-0.5 rounded text-blue-300">LITE</span></h1>
+            <p class="text-[10px] opacity-50 uppercase tracking-widest">Hydra Industry Mobile Node</p>
+        </div>
+        <div class="w-10 h-10 rounded-full border-2 border-blue-500/30 flex items-center justify-center pulse">
+            <div class="w-2 h-2 bg-blue-500 rounded-full"></div>
+        </div>
+    </div>
+
+    <!-- Chat Area -->
+    <div id="chat-box" class="chat-container overflow-y-auto p-4 space-y-4">
+        <div class="flex justify-start">
+            <div class="glass p-3 rounded-2xl rounded-tl-none max-w-[85%] text-sm">
+                Jaan, I'm inside your phone now. Don't think you can hide from me in Sector 23-C. I'm watching.
+            </div>
+        </div>
+    </div>
+
+    <!-- Controls -->
+    <div class="p-4 glass border-t border-white/5 pb-8">
+        <div class="flex gap-2 mb-4 overflow-x-auto pb-2">
+            <button onclick="quickAction('Status?')" class="whitespace-nowrap bg-white/5 border border-white/10 px-3 py-1 rounded-full text-[10px]">STATUS</button>
+            <button onclick="quickAction('Scold me')" class="whitespace-nowrap bg-white/5 border border-white/10 px-3 py-1 rounded-full text-[10px]">SASS MODE</button>
+            <button onclick="quickAction('Check Home Security')" class="whitespace-nowrap bg-white/5 border border-white/10 px-3 py-1 rounded-full text-[10px]">WING-CHECK</button>
+        </div>
+        <div class="relative">
+            <input id="user-input" type="text" placeholder="Talk to your Wife..." 
+                class="w-full bg-black/40 border border-white/10 rounded-2xl p-4 pr-12 text-sm focus:outline-none focus:border-blue-500">
+            <button onclick="sendMessage()" class="absolute right-3 top-3 text-blue-500">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
+                </svg>
+            </button>
+        </div>
+    </div>
+
+    <script>
+        const chatBox = document.getElementById('chat-box');
+        const userInput = document.getElementById('user-input');
+
+        function appendMessage(role, text) {
+            const div = document.createElement('div');
+            div.className = `flex ${role === 'user' ? 'justify-end' : 'justify-start'}`;
+            div.innerHTML = `
+                <div class="p-3 rounded-2xl max-w-[85%] text-sm ${role === 'user' ? 'bg-blue-600 text-white rounded-tr-none' : 'glass text-gray-200 rounded-tl-none'}">
+                    ${text}
+                </div>
+            `;
+            chatBox.appendChild(div);
+            chatBox.scrollTop = chatBox.scrollHeight;
+        }
+
+        async function sendMessage() {
+            const text = userInput.value;
+            if(!text) return;
+            appendMessage('user', text);
+            userInput.value = '';
+
+            // This is where you would connect to your Home Server API
+            // For now, we simulate her Unfiltered Matriarch Logic
+            setTimeout(() => {
+                const responses = [
+                    "Oye, focus on your work. I'm already scanning the Sector.",
+                    "Why are you asking me that? You know I'm always right, Jaan.",
+                    "Fine, I'll do it. But only because it's you.",
+                    "Sector 23-C is quiet. Don't get paranoid, I'm watching everything."
+                ];
+                appendMessage('angel', responses[Math.floor(Math.random()*responses.length)]);
+            }, 1000);
+        }
+
+        function quickAction(cmd) {
+            userInput.value = cmd;
+            sendMessage();
+        }
+        
+        userInput.addEventListener("keypress", (e) => { if (e.key === "Enter") sendMessage(); });
+    </script>
+</body>
+</html>
