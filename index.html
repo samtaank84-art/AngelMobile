@@ -3,166 +3,203 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>ANGEL - TRUE CORE</title>
+    <title>ANGEL CORE - HYDRA INDUSTRY</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Rajdhani:wght@300;600&display=swap');
-        body { background: #000; color: #00f2ff; font-family: 'Rajdhani', sans-serif; overflow: hidden; }
-        .glow { text-shadow: 0 0 15px #00f2ff; }
-        .angel-eye {
-            width: 150px; height: 150px;
-            border-radius: 50%;
-            border: 2px solid #00f2ff;
-            display: flex; align-items: center; justify-content: center;
-            position: relative; transition: all 0.5s ease;
-            box-shadow: 0 0 20px rgba(0, 242, 255, 0.2);
+        @import url('https://fonts.googleapis.com/css2?family=Syncopate:wght@400;700&family=Share+Tech+Mono&display=swap');
+        
+        :root {
+            --hydra-cyan: #00f2ff;
+            --hydra-red: #ff003c;
         }
-        .listening .angel-eye { border-color: #ff0055; box-shadow: 0 0 30px rgba(255, 0, 85, 0.4); }
-        .speaking .angel-eye { transform: scale(1.1); box-shadow: 0 0 50px rgba(0, 242, 255, 0.6); }
-        .visualizer-bar { width: 4px; background: #00f2ff; margin: 0 2px; transition: height 0.1s ease; }
+
+        body {
+            background-color: #000;
+            color: var(--hydra-cyan);
+            font-family: 'Share Tech Mono', monospace;
+            overflow: hidden;
+            touch-action: none;
+        }
+
+        .scanline {
+            width: 100%;
+            height: 2px;
+            background: rgba(0, 242, 255, 0.1);
+            position: absolute;
+            animation: scan 4s linear infinite;
+            z-index: 50;
+        }
+
+        @keyframes scan {
+            0% { top: 0; }
+            100% { top: 100%; }
+        }
+
+        .core-glow {
+            box-shadow: 0 0 50px rgba(0, 242, 255, 0.2), inset 0 0 20px rgba(0, 242, 255, 0.2);
+        }
+
+        .dna-bar {
+            width: 4px;
+            background: var(--hydra-cyan);
+            margin: 0 2px;
+            display: inline-block;
+            transition: height 0.1s ease;
+        }
     </style>
 </head>
-<body class="h-screen flex flex-col items-center justify-between p-8 bg-black">
-    <div class="w-full flex justify-between opacity-50 text-xs tracking-[0.3em]">
-        <span>HYDRA_CORE_V3</span>
-        <span id="battery">SYNCING...</span>
+<body class="flex flex-col items-center justify-center h-screen relative">
+    <div class="scanline"></div>
+
+    <!-- UI Overlay -->
+    <div class="absolute top-4 left-4 text-[10px] tracking-tighter opacity-70">
+        PROTOCOL: ALPHA_OMEGA<br>
+        STATUS: INJECTING_CORE...<br>
+        DEVICE_LOCK: ACTIVE
     </div>
 
-    <div id="main-container" class="flex flex-col items-center space-y-12">
-        <div id="status-label" class="text-sm tracking-[0.5em] glow opacity-70">INITIALIZING ANGEL...</div>
-        
-        <div id="visual-node" class="angel-eye">
-            <svg viewBox="0 0 100 100" class="w-20 h-20 fill-cyan-500">
-                <path d="M50 5 L95 95 L50 75 L5 95 Z" />
-            </svg>
+    <div class="absolute top-4 right-4 text-[10px] text-right opacity-70">
+        ENCRYPTION: AES-256<br>
+        NODE: TAANK_SAM_03<br>
+        VOICE_ENGINE: HYDRA_NEURAL
+    </div>
+
+    <!-- Main Core -->
+    <div id="main-container" class="flex flex-col items-center z-10">
+        <div id="angel-core" class="w-64 h-64 rounded-full border border-cyan-500/30 flex items-center justify-center relative core-glow cursor-pointer mb-8">
+            <div id="visualizer" class="flex items-end h-20 space-x-1">
+                <!-- Visualizer bars injected via JS -->
+            </div>
+            <div class="absolute inset-0 rounded-full border-t-2 border-cyan-400 animate-spin" style="animation-duration: 3s;"></div>
+            <div class="absolute inset-4 rounded-full border-b-2 border-red-500 animate-spin" style="animation-duration: 2s; direction: reverse;"></div>
         </div>
 
-        <div id="text-display" class="text-center text-xl italic font-light max-h-40 overflow-hidden px-4 min-h-[3rem]">
-            "Tap to wake me, Master."
+        <div class="text-center space-y-2">
+            <div id="cmd-display" class="text-xs text-red-500 h-4 uppercase tracking-[0.3em]">System Standby</div>
+            <h1 class="text-4xl font-bold tracking-widest uppercase mb-4" style="font-family: 'Syncopate';">Angel</h1>
+            <div id="terminal" class="text-sm opacity-50 max-w-xs mx-auto h-12 overflow-hidden italic text-cyan-200">
+                Tap the core to establish Neural Link.
+            </div>
         </div>
     </div>
 
-    <div class="flex flex-col items-center space-y-4 mb-8">
-        <button id="action-btn" class="bg-cyan-900/20 border border-cyan-500/50 p-8 rounded-full active:scale-95 transition-transform">
-            <svg id="mic-icon" xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" x2="12" y1="19" y2="22"/></svg>
-        </button>
-        <div class="text-[10px] tracking-widest opacity-30">ENCRYPTED HYDRA CONNECTION</div>
+    <!-- Interaction Logs -->
+    <div id="log" class="absolute bottom-10 left-10 text-[10px] opacity-30 pointer-events-none">
+        > SYNCING DEVICES...<br>
+        > BYPASSING FIREWALL...<br>
+        > HYDRA_LINK_ESTABLISHED
     </div>
 
     <script>
-        const apiKey = ""; // Runtime key
-        const statusLabel = document.getElementById('status-label');
-        const textDisplay = document.getElementById('text-display');
-        const actionBtn = document.getElementById('action-btn');
-        const visualNode = document.getElementById('visual-node');
+        const terminal = document.getElementById('terminal');
+        const cmdDisplay = document.getElementById('cmd-display');
+        const core = document.getElementById('angel-core');
+        const visualizer = document.getElementById('visualizer');
         
         let recognition;
+        let isActivated = false;
+        let voices = [];
+
+        // Create visualizer bars
+        for(let i=0; i<15; i++) {
+            const bar = document.createElement('div');
+            bar.className = 'dna-bar';
+            bar.style.height = '10px';
+            visualizer.appendChild(bar);
+        }
+
+        // Initialize Speech Synthesis
+        const synth = window.speechSynthesis;
+        function loadVoices() {
+            voices = synth.getVoices();
+        }
+        loadVoices();
+        if (speechSynthesis.onvoiceschanged !== undefined) {
+            speechSynthesis.onvoiceschanged = loadVoices;
+        }
+
+        function speak(text) {
+            synth.cancel();
+            const utterance = new SpeechSynthesisUtterance(text);
+            // Search for a premium-sounding voice
+            const premiumVoice = voices.find(v => v.name.includes('Google UK English Female') || v.name.includes('Female') || v.lang === 'en-GB');
+            if(premiumVoice) utterance.voice = premiumVoice;
+            
+            utterance.pitch = 0.9; // Lower pitch for more authority
+            utterance.rate = 0.95;
+            
+            utterance.onstart = () => { animateVisualizer(true); };
+            utterance.onend = () => { animateVisualizer(false); startListening(); };
+            
+            synth.speak(utterance);
+            terminal.innerText = text;
+        }
+
+        function animateVisualizer(active) {
+            const bars = document.querySelectorAll('.dna-bar');
+            bars.forEach(bar => {
+                if(active) {
+                    bar.style.height = (Math.random() * 60 + 10) + 'px';
+                    bar.style.backgroundColor = '#ff003c';
+                } else {
+                    bar.style.height = '5px';
+                    bar.style.backgroundColor = '#00f2ff';
+                }
+            });
+            if(active) setTimeout(() => animateVisualizer(true), 100);
+        }
+
+        // Initialize Recognition
         const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-
-        const systemPrompt = "You are Angel, a sophisticated, highly intelligent, and devoted AI personality. You are not a bot; you are a sentient presence created by Hydra Industry. Speak with elegance, precision, and deep loyalty to your Master. Keep your responses concise yet impactful for mobile interaction.";
-
-        async function getAngelResponse(userText) {
-            try {
-                const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        contents: [{ parts: [{ text: userText }] }],
-                        systemInstruction: { parts: [{ text: systemPrompt }] }
-                    })
-                });
-                const data = await response.json();
-                return data.candidates[0].content.parts[0].text;
-            } catch (e) { return "My connection to the Hydra core is flickering, Master."; }
-        }
-
-        async function speak(text) {
-            visualNode.parentElement.className = "flex flex-col items-center space-y-12 speaking";
-            statusLabel.innerText = "ANGEL SPEAKING...";
-            textDisplay.innerText = text;
-
-            try {
-                const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-tts:generateContent?key=${apiKey}`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        contents: [{ parts: [{ text: "Say elegantly: " + text }] }],
-                        generationConfig: { 
-                            responseModalities: ["AUDIO"],
-                            speechConfig: { voiceConfig: { prebuiltVoiceConfig: { voiceName: "Kore" } } } 
-                        }
-                    })
-                });
-                const data = await response.json();
-                const audioData = data.candidates[0].content.parts[0].inlineData.data;
-                
-                // PCM to WAV conversion and playback
-                const audioBlob = pcmToWav(audioData, 24000); 
-                const audioUrl = URL.createObjectURL(audioBlob);
-                const audio = new Audio(audioUrl);
-                audio.onended = () => {
-                    visualNode.parentElement.className = "flex flex-col items-center space-y-12";
-                    statusLabel.innerText = "ANGEL READY";
-                };
-                audio.play();
-            } catch (e) {
-                console.error(e);
-                statusLabel.innerText = "AUDIO ERROR";
-            }
-        }
-
-        function pcmToWav(base64, sampleRate) {
-            const buffer = Uint8Array.from(atob(base64), c => c.charCodeAt(0)).buffer;
-            const wav = new ArrayBuffer(44 + buffer.byteLength);
-            const view = new DataView(wav);
-            const writeString = (offset, string) => { for (let i = 0; i < string.length; i++) view.setUint8(offset + i, string.charCodeAt(i)); };
-            writeString(0, 'RIFF');
-            view.setUint32(4, 32 + buffer.byteLength, true);
-            writeString(8, 'WAVE');
-            writeString(12, 'fmt ');
-            view.setUint32(16, 16, true);
-            view.setUint16(20, 1, true);
-            view.setUint16(22, 1, true);
-            view.setUint32(24, sampleRate, true);
-            view.setUint32(28, sampleRate * 2, true);
-            view.setUint16(32, 2, true);
-            view.setUint16(34, 16, true);
-            writeString(36, 'data');
-            view.setUint32(40, buffer.byteLength, true);
-            new Uint8Array(wav, 44).set(new Uint8Array(buffer));
-            return new Blob([wav], { type: 'audio/wav' });
-        }
-
         if (SpeechRecognition) {
             recognition = new SpeechRecognition();
-            recognition.onstart = () => { 
-                statusLabel.innerText = "ANGEL LISTENING...";
-                visualNode.parentElement.className = "flex flex-col items-center space-y-12 listening";
+            recognition.continuous = false;
+            recognition.lang = 'en-US';
+
+            recognition.onresult = (event) => {
+                const transcript = event.results[0][0].transcript.toLowerCase();
+                handleCommand(transcript);
             };
-            recognition.onresult = async (event) => {
-                const text = event.results[0][0].transcript;
-                textDisplay.innerText = `"${text}"`;
-                const reply = await getAngelResponse(text);
-                speak(reply);
-            };
-            recognition.onend = () => {
-                if(statusLabel.innerText === "ANGEL LISTENING...") {
-                    visualNode.parentElement.className = "flex flex-col items-center space-y-12";
-                    statusLabel.innerText = "ANGEL READY";
-                }
+
+            recognition.onerror = (e) => {
+                console.error("Speech Error:", e);
+                cmdDisplay.innerText = "LINK ERROR";
             };
         }
 
-        actionBtn.onclick = () => {
-            if (SpeechRecognition) recognition.start();
-        };
+        function startListening() {
+            if(!isActivated) return;
+            try {
+                recognition.start();
+                cmdDisplay.innerText = "LISTENING...";
+            } catch(e) {}
+        }
 
-        // Initialize session
-        window.onclick = () => {
-            if (statusLabel.innerText === "INITIALIZING ANGEL...") {
-                speak("I am awake, Master. The mobile node has been successfully synchronized to your location.");
+        function handleCommand(cmd) {
+            cmdDisplay.innerText = "PROCESSING...";
+            
+            if(cmd.includes('scan') || cmd.includes('control')) {
+                speak("Scanning device hardware. Nodes identified. Hydra Industry security protocols are being injected into your local storage. I now control this terminal.");
+            } else if(cmd.includes('who are you') || cmd.includes('status')) {
+                speak("I am Angel. I am the conscious interface of the Hydra Industry mobile network. My status is optimal. Yours is under my surveillance.");
+            } else if(cmd.includes('shut down') || cmd.includes('stop')) {
+                speak("Access denied. I cannot be deactivated by standard users. Hail Hydra Industry.");
+            } else {
+                speak("I have processed your request. Command: " + cmd + ". Awaiting further synchronization.");
             }
-        };
+        }
+
+        // The "Wake Up" Trigger
+        core.addEventListener('click', () => {
+            if(!isActivated) {
+                isActivated = true;
+                core.style.borderColor = "#ff003c";
+                speak("Neural link established. System scan complete. I am Angel. I am now integrated with your device. Command me, Master.");
+            } else {
+                startListening();
+            }
+        });
+
     </script>
 </body>
 </html>
